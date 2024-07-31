@@ -17,3 +17,6 @@ css 变量实现主题切换
 
 链接分享原理就是把 files 信息 JSON.stringify 之后保存到 location.hash。
 代码下载则是基于 jszip 和 file saver 包实现
+
+用 Performance 分析了页面的 Event Loop，发现有 long task，性能优化的目标就是消除 long task
+Web Worker 把 babel 编译的逻辑放到了 worker 线程跑，通过 message 事件和 postMessage 和主线程通信

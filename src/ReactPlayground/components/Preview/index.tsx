@@ -1,9 +1,10 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { PlaygroundContext } from '../../PlaygroundContext'
 import { IMPORT_MAP_FILE_NAME } from '../../files'
-import { compile } from './compiler'
+import CompilerWorker from './compiler.worker?worker'
 import iframeRaw from './iframe.html?raw'
 import { Message } from '../Message'
+import { debounce } from 'lodash-es'
 
 interface MessageData {
   data: {
@@ -16,10 +17,10 @@ export default function Preview() {
   const { files } = useContext(PlaygroundContext)
   const [compiledCode, setCompiledCode] = useState('')
 
-  useEffect(() => {
-    const res = compile(files)
-    setCompiledCode(res)
-  }, [files])
+  // useEffect(() => {
+  //   // const res = compile(files)
+  //   // setCompiledCode(res)
+  // }, [files])
 
   const getIframeUrl = () => {
     console.log(files)
@@ -55,6 +56,29 @@ export default function Preview() {
       window.removeEventListener('message', handleMessage)
     }
   }, [])
+
+  const compilerWorkerRef = useRef<Worker>()
+
+  useEffect(() => {
+    if (!compilerWorkerRef.current) {
+      compilerWorkerRef.current = new CompilerWorker()
+      compilerWorkerRef.current.addEventListener('message', ({ data }) => {
+        if (data.type === 'COMPILED_CODE') {
+          setCompiledCode(data.data)
+        }
+      })
+    }
+    return () => {
+      compilerWorkerRef.current!.removeEventListener('message', () => {})
+    }
+  }, [])
+
+  useEffect(
+    debounce(() => {
+      compilerWorkerRef.current?.postMessage(files)
+    }, 500),
+    [files]
+  )
 
   return (
     <div style={{ height: '100%' }}>
