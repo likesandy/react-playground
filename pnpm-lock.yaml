@@ -8,12 +8,18 @@ importers:
 
   .:
     dependencies:
+      '@babel/core':
+        specifier: ^7.25.2
+        version: 7.25.2
       '@babel/standalone':
         specifier: ^7.25.2
         version: 7.25.2
       '@monaco-editor/react':
         specifier: ^4.6.0
         version: 4.6.0(monaco-editor@0.50.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@types/babel__core':
+        specifier: ^7.20.5
+        version: 7.20.5
       '@typescript/ata':
         specifier: ^0.9.6
         version: 0.9.6(typescript@5.5.4)
