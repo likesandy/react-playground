@@ -5,7 +5,8 @@ import Editor from './Editor'
 import FileNameList from './FileNameList'
 
 export default function CodeEditor() {
-  const { files, setFiles, selectedFileName } = useContext(PlaygroundContext)
+  const { files, setFiles, selectedFileName, theme } =
+    useContext(PlaygroundContext)
 
   const file = files[selectedFileName]
 
@@ -19,6 +20,7 @@ export default function CodeEditor() {
       <FileNameList />
       <Editor
         file={file}
+        options={{ theme: `vs-${theme}` }}
         onChange={debounce(onEditorChange, 500)}
       />
     </div>

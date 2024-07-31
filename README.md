@@ -11,3 +11,6 @@ react、react-dom/client 这种，用浏览器的 import maps 来引入
 iframe.html 的内容替换 import maps 和 src 部分后，同样用 blob url 设置为 iframe 的 src 就可以了
 
 文件增删改功能
+
+监听 iframe 错误信息
+css 变量实现主题切换
