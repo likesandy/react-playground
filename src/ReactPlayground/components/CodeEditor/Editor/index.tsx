@@ -18,17 +18,23 @@ export default function Editor(props: Props) {
   const { file, onChange, options } = props
 
   const handleEditorMount: OnMount = (editor, monaco) => {
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Shift | monaco.KeyCode.KeyF, () => {
-      editor.getAction('editor.action.formatDocument')?.run()
-    })
+    editor.addCommand(
+      monaco.KeyMod.CtrlCmd | monaco.KeyCode.Shift | monaco.KeyCode.KeyF,
+      () => {
+        editor.getAction('editor.action.formatDocument')?.run()
+      }
+    )
 
     monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
       jsx: monaco.languages.typescript.JsxEmit.Preserve,
-      esModuleInterop: true,
+      esModuleInterop: true
     })
 
     const ata = createATA((code, path) => {
-      monaco.languages.typescript.typescriptDefaults.addExtraLib(code, `file://${path}`)
+      monaco.languages.typescript.typescriptDefaults.addExtraLib(
+        code,
+        `file://${path}`
+      )
     })
 
     editor.onDidChangeModelContent(() => {
@@ -50,13 +56,13 @@ export default function Editor(props: Props) {
         fontSize: 14,
         scrollBeyondLastLine: false,
         minimap: {
-          enabled: false,
+          enabled: false
         },
         scrollbar: {
           verticalScrollbarSize: 6,
-          horizontalScrollbarSize: 6,
+          horizontalScrollbarSize: 6
         },
-        ...options,
+        ...options
       }}
     />
   )
