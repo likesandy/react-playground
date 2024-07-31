@@ -14,3 +14,6 @@ iframe.html 的内容替换 import maps 和 src 部分后，同样用 blob url �
 
 监听 iframe 错误信息
 css 变量实现主题切换
+
+链接分享原理就是把 files 信息 JSON.stringify 之后保存到 location.hash。
+代码下载则是基于 jszip 和 file saver 包实现
